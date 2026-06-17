@@ -1,16 +1,112 @@
-LeetCode 1
+LeetCode - 1
 Two Sum 
-Brute Force 
+Brute force 
+  
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-       for(int i = 0; i < nums.size(); i++) {
-        for(int j = i + 1; j < nums.size(); j++){
-            if(nums[i] + nums[j] == target){
-                return{i,j};
+        for(int i = 0; i < nums.size(); i++){
+            for(int j = i + 1; j < nums.size(); j++) {
+                if(nums[i] + nums[j] == target) {
+                    return {i,j};
                 }
-            }   
-       } 
-       return {};
+            }
+        }
+        return {};
+    }
+};
+// Time -- O(n^2);
+// space -- O(1);
+
+LeetCode 53
+Maximum Subarray 
+
+Brute Force 
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxSum = INT_MIN;
+        for(int i = 0; i < nums.size(); i++) {
+            int sum = 0;
+            for(int j = i; j < nums.size(); j++) {
+                sum = sum + nums[j];
+                maxSum = max(maxSum, sum);
+            }
+        }
+        return maxSum;
+    }
+};
+
+Optimal Approach 
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxSum = INT_MIN;
+        int sum = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            sum = sum + nums[i];
+
+            if(sum > maxSum){
+                maxSum = sum;
+            }
+            if(sum < 0){
+                sum = 0;
+            }
+        }
+        return maxSum;
+    }
+};
+
+LeetCode 75
+Sort 0s,1s,2s
+Brute 
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+      int count0 = 0;
+      int count1 = 0;
+      int count2 = 0;  
+
+      for(int i = 0; i < nums.size(); i++) {
+        if(nums[i] == 0){
+            count0++;
+        } else if(nums[i] == 1){
+            count1++;
+        } else {
+            count2++;
+        }
+      }
+      for(int i = 0; i < nums.size(); i++) {
+        if(i < count0) {
+            nums[i] = 0;
+        } else if(i < count0 + count1) {
+            nums[i] = 1;
+        } else {
+            nums[i] = 2;
+        }
+      }
+    }
+};
+
+Optimal 
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int start = 0;
+        int middle = 0;
+        int end = nums.size() - 1;
+
+        while(middle <= end) {
+            if(nums[middle] == 0){
+                swap(nums[start], nums[middle]);
+                start++;
+                middle++;
+            }  else if (nums[middle] == 1){
+                middle++;
+            } else {
+                swap(nums[middle], nums[end]);
+                end--;
+            }
+       }
     }
 };
