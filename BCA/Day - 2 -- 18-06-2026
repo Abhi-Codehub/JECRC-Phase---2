@@ -1,0 +1,167 @@
+LeetCode 169 
+Majority Element 
+Brute Force 
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int n = nums.size();
+        for(int i = 0; i < n; i++) {
+            int count = 0;
+            for(int j = 0; j < n; j++) {
+                if(nums[i] == nums[j]){
+                    count++;
+                }
+            }
+            if(count > n/2){
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+};
+
+Better 
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        return nums[n/2];
+    }
+};
+
+Optimal Approach 
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate = -1;
+        int vote = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(vote == 0) {
+                candidate = nums[i];
+                vote = 1;
+            } else {
+                if(candidate == nums[i]) {
+                    vote++;
+                }else {
+                    vote--;
+                }
+            }
+        }
+        int count = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == candidate){
+                count++;
+            }
+        }
+        if(count > nums.size() / 2){
+                return candidate;
+            }  
+        return -1;
+    }
+};
+
+LeetCode 283
+Move Zeroes
+
+Using swapping 
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int index = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0){
+                swap(nums[index], nums[i]);
+                index++;
+            }
+        }
+    }
+};
+
+using rewrite approach 
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int index = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0) {
+                nums[index] = nums[i];
+                index++;
+            }
+        }
+        while(index < nums.size()) {
+            nums[index] = 0;
+            index++;
+        }
+    }
+};
+
+leetCode 167
+Two Sum II -- Sorted Array 
+Optimal Approach 
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int start = 0;
+        int end = numbers.size() - 1;
+
+        while(start < end) {
+            int sum = numbers[start] + numbers[end];
+
+            if(sum == target) {
+                return {start + 1, end + 1};
+            } else if (sum > target){
+                end--;
+            } else {
+                start++;
+            }
+        }
+        return {-1,-1};
+    }
+};
+
+GFG Max Sum SubArray of size K
+class Solution {
+  public:
+    int maxSubarraySum(vector<int>& arr, int k) {
+        // code here
+        int sum = 0;
+        for(int i = 0; i < k; i++) {
+            sum = sum + arr[i];
+        }
+        
+        int maxSum = sum;
+        
+        for(int i = k; i < arr.size(); i++) {
+            sum = sum + arr[i] - arr[i - k ];
+            maxSum = max(maxSum, sum);
+        }
+        return maxSum;
+    }
+};
+
+LeetCode 2149
+Rearrange Array Elements by sign 
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> arr(n);
+
+        int pos = 0;
+        int negative = 1;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] < 0) {
+                arr[negative] = nums[i];
+                negative += 2;
+            } else {
+                arr[pos] = nums[i];
+                pos += 2;
+            }
+        }
+
+        return arr;
+    }
+};
