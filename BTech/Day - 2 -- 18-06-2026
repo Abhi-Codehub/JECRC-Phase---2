@@ -61,3 +61,36 @@ public:
         return -1;
     }
 };
+
+LeetCode 283
+Using swapping 
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int index = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0){
+                swap(nums[index], nums[i]);
+                index++;
+            }
+        }
+    }
+};
+
+using rewrite approach 
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int index = 0;
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] != 0) {
+                nums[index] = nums[i];
+                index++;
+            }
+        }
+        while(index < nums.size()) {
+            nums[index] = 0;
+            index++;
+        }
+    }
+};
