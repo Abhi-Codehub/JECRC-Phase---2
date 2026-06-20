@@ -23,3 +23,65 @@ public:
         return result;
     }
 };
+
+Binary Search Code 
+#include <iostream>
+using namespace std;
+#include <vector>
+
+int binarySearch(vector<int> &arr, int target) {
+        int low = 0;
+        int high = arr.size() - 1;
+        
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            if(arr[mid] == target){
+                return mid;
+            }
+            if(arr[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return - 1;
+    }
+
+int main() {
+   vector<int> arr = {2,3,4,6,8,10};
+   int target = 10;
+   int result = binarySearch(arr, target);
+   
+   if(result == -1) {
+       cout << "Element is not found in the given array..";
+   } else {
+       cout << "Element is found at " << result ;
+   }
+    return 0;
+}
+
+GFG 
+Ceil of a number 
+class Solution {
+  public:
+    int findCeil(vector<int>& arr, int x) {
+        // code here
+        int low = 0;
+        int high = arr.size() - 1;
+        int ans = -1;
+        
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            if(arr[mid] >= x) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
+
