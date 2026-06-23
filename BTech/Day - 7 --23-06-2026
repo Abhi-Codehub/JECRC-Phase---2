@@ -1,0 +1,62 @@
+LeetCode 92
+Reverse a LL II
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode* prevPtr = dummy;
+        ListNode* curr = head;
+
+        for(int i = 0; i < left - 1; i++) {
+            prevPtr = prevPtr->next;
+            curr = curr->next;
+        }
+        ListNode* subListHead = curr;
+        ListNode* prev = nullptr;
+        for(int i = 0; i < right - left + 1; i++) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        prevPtr->next = prev;
+        subListHead->next = curr;
+        return dummy->next;
+    }
+};
+
+LeetCode 20 
+Valid Paranthesis
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        for (char ch : s) {
+            if (ch == '[') {
+                st.push(']');
+            } else if (ch == '{') {
+                st.push('}');
+            } else if (ch == '(') {
+                st.push(')');
+            }
+            else {
+                if(st.empty() || st.top() != ch){
+                    return false;
+                } 
+                st.pop();
+            }
+        }
+        return st.empty();
+    }
+};
