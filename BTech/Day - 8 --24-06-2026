@@ -1,0 +1,76 @@
+LeetCode 739
+Daily Temprature
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> ans(n,0);
+        stack<int> st;
+
+        for(int i = n - 1; i >= 0; i--){
+            while(!st.empty() && temperatures[i] >= temperatures[st.top()]){
+                st.pop();
+            }
+            if(!st.empty()){
+                ans[i] = st.top() - i;
+            }
+            st.push(i);
+        }
+        return ans;
+    }
+};
+
+LeetCode 1047
+Remove All adjacent Duplicates in a String 
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        stack<char> st;
+        for(char c : s){
+            if(!st.empty() && st.top() == c){
+                st.pop();
+            } else {
+                st.push(c);
+            }
+        }
+        string result = "";
+        while(!st.empty()){
+            result = result + st.top();
+            st.pop();
+        }
+        reverse(result.begin(), result.end());
+        return result;
+    }
+};
+
+LeetCode 735
+Asteriod Collision 
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        stack<int> st;
+        for(int asteroid : asteroids){
+            if(st.empty() || asteroid > 0) {
+                st.push(asteroid);
+            } else{
+                while(!st.empty() && st.top() > 0 && abs(asteroid) > st.top()){
+                    st.pop();
+                }
+            if(!st.empty() && st.top() == abs(asteroid)){
+                st.pop();
+            } else{
+                if(st.empty() || st.top() < 0) {
+                    st.push(asteroid);
+                    }
+                }    
+            }
+        }
+        vector<int> ans(st.size());
+        for(int i = st.size() - 1; i >= 0; i--){
+            ans[i] = st.top();
+            st.pop();
+        }
+        return ans;
+    }
+};
+
