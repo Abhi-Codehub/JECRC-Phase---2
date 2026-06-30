@@ -1,0 +1,147 @@
+LeetCode 547
+Number of Provinces 
+Using DFS
+class Solution {
+public:
+
+    void dfs(vector<vector<int>>& isConnected, vector<bool> &visited, int n, int node) {
+        visited[node] = true;
+        for(int j = 0; j < n; j++) {
+            if(isConnected[node][j] == 1 && !visited[j]){
+                dfs(isConnected, visited, n, j);
+            }
+        }
+    }       
+
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        vector<bool> visited(n, false);
+        int count = 0;
+
+        for(int i = 0; i < n; i++) {
+            if(!visited[i]){
+                dfs(isConnected, visited, n, i);
+                count++;
+            }
+        }
+        return count;
+    }
+};
+
+Using BFS
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        vector<bool> visited(n, false);
+        queue<int> q;
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                q.push(i);
+                visited[i] = true;
+
+                while (!q.empty()) {
+                    int node = q.front();
+                    q.pop();
+
+                    for (int j = 0; j < n; j++) {
+                        if (isConnected[node][j] == 1 && !visited[j]) {
+                            visited[j] = true;
+                            q.push(j);
+                        }
+                    }
+                }
+
+                count++;
+            }
+        }
+
+        return count;
+    }
+};
+
+Detect Cycle in a Undirected Graph
+https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
+BFS
+class Solution {
+	public:
+	bool isCycle(int V, vector<vector<int>> & edges) {
+		// Code here
+		vector<vector<int>> adj(V);
+		for (auto& edge : edges) {
+			int u = edge[0];
+			int v = edge[1];
+			adj[u].push_back(v);
+			adj[v].push_back(u); // undirected
+		}
+		vector<int> visited(V, 0);
+		for (int i = 0; i < V; i++) {
+			if (!visited[i]) {
+				queue<pair<int, int>> q;
+				q.push({i, -1});
+				visited[i] = 1;
+				
+				while (!q.empty()) {
+					int node = q.front().first;
+					int parent = q.front().second;
+					q.pop();
+					
+					for (int adjacentNode : adj[node]) {
+						if (!visited[adjacentNode]) {
+							visited[adjacentNode] = 1;
+							q.push({adjacentNode, node});
+						} else if (adjacentNode != parent) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+};
+
+DFS 
+class Solution {
+public:
+    bool dfs(int node, int parent, vector<int>& visited, vector<vector<int>>& adj) {
+        visited[node] = 1;
+
+        for (int adjacentNode : adj[node]) {
+            if (!visited[adjacentNode]) {
+                if (dfs(adjacentNode, node, visited, adj))
+                    return true;
+            }
+            else if (adjacentNode != parent) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(V);
+
+        for (auto& edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        vector<int> visited(V, 0);
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                if (dfs(i, -1, visited, adj))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+};
